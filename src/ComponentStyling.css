@@ -1,0 +1,378 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+* {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --green: #55e892;
+    --green-outline: #49ba78;
+    --blue: #5fa5ef;
+    --blue-outline: #4974ba;
+    --red: #ef5f62;
+    --red-outline: #ba494a;
+    --purple: #b469ee;
+    --purple-outline: #8f53be;
+    --background: #fff3e8;
+    --popup-bg: rgba(30, 30, 30, 0.6);
+    --darker-color: #593718;
+    --main-color: #b4907d;
+    --book-cover-width: 160px;
+    --book-cover-height: calc(var(--book-cover-width) * 1.6);
+
+    --scale-factor: 1.2;
+    --base-size: 16px;
+    --subtitle: calc(var(--base-size) / var(--scale-factor));
+    --h6: calc(var(--base-size) * var(--scale-factor));
+    --h5: calc(var(--h6) * var(--scale-factor));
+    --h4: calc(var(--h5) * var(--scale-factor));
+    --h3: calc(var(--h4) * var(--scale-factor));
+    --h2: calc(var(--h3) * var(--scale-factor));
+    --h1: calc(var(--h2) * var(--scale-factor));
+
+    --base-margin: 8px;
+}
+
+/* ===== Book Cell ===== */
+.bookCell {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+    gap: var(--base-margin);
+    text-decoration: none;
+    max-width: calc(var(--book-cover-width) * 1.2);
+}
+
+.book-title {
+    color: black;
+    font: 600 var(--h6) / 1.2 "Inter";
+    word-wrap: break-word;
+}
+
+.book-author {
+    color: rgba(0, 0, 0, 0.5);
+    font: 400 var(--base-size) / 1.2 "Inter";
+    word-wrap: break-word;
+}
+
+.bookCell img {
+    border-radius: var(--base-margin);
+    margin-bottom: var(--base-margin);
+}
+
+/* ===== Book Row ===== */
+.book-row {
+    position: absolute;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: top;
+    gap: calc(var(--base-margin) * 2);
+}
+
+.bookrow-title {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: black;
+    font: 500 var(--h4) / 1.2 "Inter";
+    word-wrap: break-word;
+}
+
+.bookrow-contents {
+    align-self: stretch;
+    display: inline-flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: calc(var(--base-margin) * 2);
+}
+
+/* ===== Buttons ===== */
+.button {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: var(--base-margin);
+    padding: calc(var(--base-margin) * 1.5) calc(var(--base-margin) * 2);
+    border-radius: var(--base-margin);
+    border-bottom: 3px solid;
+    color: white;
+    background: red;
+    font-size: var(--base-size);
+    font-family: Inter, sans-serif;
+    font-weight: 500;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+    line-height: 1.2 !important;
+    min-width: max-content;
+}
+
+.button-red {
+    background-color: var(--red);
+    border-bottom-color: var(--red-outline);
+}
+
+.button-blue {
+    background-color: var(--blue);
+    border-bottom-color: var(--blue-outline);
+}
+
+.button-green {
+    background-color: var(--green);
+    border-bottom-color: var(--green-outline);
+}
+
+.button-purple {
+    background-color: var(--purple);
+    border-bottom-color: var(--purple-outline);
+}
+
+/* ===== Dropdown ===== */
+/* src/components/Dropdown.css */
+/* Anchor declaration */
+.dropdown-button[data-anchor="dropdown"] {
+    anchor-name: --dropdown;
+}
+
+/* Base container */
+.base-dropdown {
+    display: inline-block;
+}
+
+/* Button */
+.dropdown-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--base-margin, 8px);
+    padding: calc(var(--base-margin, 8px) * 1.5)
+        calc(var(--base-margin, 8px) * 2);
+    background: white;
+    border-radius: var(--base-margin, 8px);
+    border: 1px solid #c4c4c4;
+    border-bottom-width: 3px;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    min-width: max-content; /* ✅ allows dynamic width */
+    transition: border-color 0.15s, min-width 0.15s ease-out; /* smooth resize */
+}
+
+.dropdown-button:hover {
+    border-color: #a0a0a0;
+}
+
+.dropdown-button:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+    border-color: #2563eb;
+}
+
+.dropdown-title {
+    color: black;
+    margin: 0;
+    font: 500 var(--base-size, 16px) / 1.2 "Inter", sans-serif;
+    flex: 1;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Arrow rotation */
+.dropdown-arrow {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+/* Rotate when popover is open */
+.dropdown-button:has(+ .dropdown-choices:popover-open) .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+/* Dropdown */
+.dropdown-choices {
+    /* Anchor position (left/top only) */
+    position: absolute;
+    left: anchor(--dropdown left);
+    top: anchor(--dropdown bottom);
+
+    /* Visuals */
+    background: white;
+    border: 1px solid #c4c4c4;
+    border-top: none;
+    border-radius: 0 0 var(--base-margin, 8px) var(--base-margin, 8px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 0;
+    margin: 0;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+/* Options */
+.dropdown-option {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* ✅ centered text */
+    width: 100%;
+    padding: calc(var(--base-margin, 8px) * 1.5)
+        calc(var(--base-margin, 8px) * 2);
+    background: none;
+    border: none;
+    font: inherit;
+    font-size: var(--base-size, 16px);
+    font-weight: 400;
+    color: #333;
+    cursor: pointer;
+    line-height: 1.2;
+    font-family: "Inter", sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background-color 0.15s;
+}
+
+.dropdown-option:hover,
+.dropdown-option:focus {
+    background-color: #f7f7f7;
+}
+
+.dropdown-option:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 2px #2563eb40;
+}
+
+/* Divider */
+.dropdown-option + .dropdown-option {
+    border-top: 1px solid #eee;
+}
+
+/* Fallback for browsers without :has() */
+@supports not (selector(:has(*))) {
+    .dropdown-choices:popover-open + .dropdown-arrow {
+        transform: rotate(180deg) !important;
+    }
+}
+
+/* ===== Quiz ===== */
+.quiz-content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    align-self: stretch;
+    gap: var(--base-margin);
+    padding: 0 calc(var(--base-margin) * 2);
+    background: white;
+    border-radius: var(--base-margin);
+    border-bottom: 3px solid #c4c4c4;
+}
+
+.quiz-letter,
+.quiz-answer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: black;
+    font-family: Inter;
+    word-wrap: break-word;
+}
+
+.quiz-letter {
+    font: 500 var(--h6) / 1.2 Inter;
+}
+
+.quiz-answer {
+    font: 400 var(--base-size) / 1.2 Inter;
+}
+
+.quiz-content .selected {
+    background: #f1f1f1;
+}
+
+.quiz-line {
+    align-self: stretch;
+    width: 100%;
+    height: 0;
+    opacity: 0.5;
+    outline: 1px solid black;
+    outline-offset: -0.5px;
+    transform: rotate(-90deg);
+    transform-origin: top left;
+}
+
+/* ===== Chip ===== */
+.chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--base-margin);
+    padding: var(--base-margin) calc(var(--base-margin) * 2);
+    background: var(--main-color);
+    outline: 2px solid var(--darker-color);
+    border-radius: 999px;
+    color: white;
+    font: 500 var(--h6) / 1.2 Inter;
+    word-wrap: break-word;
+}
+
+/* ===== Page Cell ===== */
+.page-cell {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--base-margin);
+    padding: calc(var(--base-margin) * 0.75) var(--base-margin);
+    color: white;
+    font: 700 var(--h5) / 1.2 Inter;
+    word-wrap: break-word;
+}
+
+.page-cell .cell-selected {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+/* ===== Notification ===== */
+.topbar-notif {
+    display: inline-flex;
+    flex-direction: column;
+    align-self: stretch;
+    justify-content: center;
+    align-items: flex-end;
+    gap: calc(var(--base-margin) * 0.75);
+    padding: calc(var(--base-margin) * 2);
+    background: rgba(206, 194, 184, 0.25);
+    border-radius: calc(var(--base-margin) * 2);
+}
+
+.topbar-notif h3,
+.notif-time,
+.notif-description {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: right;
+    word-wrap: break-word;
+}
+
+.topbar-notif h3 {
+    color: white;
+    font: 700 var(--h4) / 1.2 Inter;
+}
+
+.notif-time {
+    color: rgba(255, 255, 255, 0.5);
+    font: 500 var(--base-size) / 1.2 Inter;
+}
+
+.notif-description {
+    color: rgba(255, 255, 255, 0.75);
+    font: 400 var(--h6) / 1.2 Inter;
+}

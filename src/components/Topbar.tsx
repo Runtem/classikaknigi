@@ -1,22 +1,23 @@
 import TopbarCell from "./TopbarCell";
 import TopbarNotification from "./TopbarNotification";
 
-interface Link {
+export interface LinkInterface {
     icon: string;
     title: string;
     isCurrent: boolean;
+    url: string;
 }
 
-interface Notification {
+export interface NotificationInterface {
     timestamp: number;
     title: string;
     description: string;
     link: string;
 }
 
-interface TopbarInterface {
-    links: Array<Link>;
-    notifications: Array<Notification>;
+export interface TopbarInterface {
+    links: Array<LinkInterface>;
+    notifications: Array<NotificationInterface>;
 }
 
 export default function Topbar({ links, notifications }: TopbarInterface) {
@@ -25,43 +26,49 @@ export default function Topbar({ links, notifications }: TopbarInterface) {
             <div className="topbar-main">
                 <div id="topbar-logo">
                     <img
-                        src="./klassikaknigiIcon.png"
+                        src="./icons/classika_knigi.png"
                         alt=""
-                        width={79}
-                        height={72}
+                        width={48}
+                        height={48}
                     />
                     <h2>КлассикаКниги</h2>
                 </div>
                 {links.map((link) => {
                     return (
                         <TopbarCell
+                            key={link.title}
                             icon={link.icon}
                             title={link.title}
                             isSelected={link.isCurrent}
+                            url={link.url}
                         />
                     );
                 })}
             </div>
-            <button id="topbar-notification" popoverTarget="auto">
+            <button
+                id="topbar-notification"
+                popoverTarget="topbar-notifications"
+            >
                 <img
-                    src="./icons/notification_icon.png"
+                    src="./icons/bell_icon.png"
                     alt="Notification icon"
-                    width={70}
-                    height={70}
+                    width={32}
+                    height={32}
                 />
-                <div id="topbar-notifications" popover="auto">
-                    {notifications.map((notification) => {
-                        return (
-                            <TopbarNotification
-                                unixTimestamp={notification.timestamp}
-                                notifTitle={notification.title}
-                                notifDescription={notification.description}
-                                notifLink={notification.link}
-                            ></TopbarNotification>
-                        );
-                    })}
-                </div>
             </button>
+            <div id="topbar-notifications" popover="auto">
+                {notifications.map((notification) => {
+                    return (
+                        <TopbarNotification
+                            key={notification.title}
+                            unixTimestamp={notification.timestamp}
+                            notifTitle={notification.title}
+                            notifDescription={notification.description}
+                            notifLink={notification.link}
+                        ></TopbarNotification>
+                    );
+                })}
+            </div>
         </div>
     );
 }

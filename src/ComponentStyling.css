@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap");
 
 * {
     border: 0;
@@ -36,7 +37,6 @@
     --base-margin: 8px;
 }
 
-/* ===== Book Cell ===== */
 .bookCell {
     display: inline-flex;
     flex-direction: column;
@@ -92,7 +92,6 @@
     gap: calc(var(--base-margin) * 2);
 }
 
-/* ===== Buttons ===== */
 .button {
     display: inline-flex;
     flex-direction: row;
@@ -134,19 +133,19 @@
     border-bottom-color: var(--purple-outline);
 }
 
-/* ===== Dropdown ===== */
-/* src/components/Dropdown.css */
-/* Anchor declaration */
+.button-white {
+    background-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(184, 184, 184);
+}
+
 .dropdown-button[data-anchor="dropdown"] {
     anchor-name: --dropdown;
 }
 
-/* Base container */
 .base-dropdown {
     display: inline-block;
 }
 
-/* Button */
 .dropdown-button {
     display: inline-flex;
     align-items: center;
@@ -161,8 +160,8 @@
     cursor: pointer;
     font: inherit;
     color: inherit;
-    min-width: max-content; /* ✅ allows dynamic width */
-    transition: border-color 0.15s, min-width 0.15s ease-out; /* smooth resize */
+    min-width: max-content;
+    transition: border-color 0.15s, min-width 0.15s ease-out;
 }
 
 .dropdown-button:hover {
@@ -186,25 +185,20 @@
     text-overflow: ellipsis;
 }
 
-/* Arrow rotation */
 .dropdown-arrow {
     flex-shrink: 0;
     transition: transform 0.2s ease;
 }
 
-/* Rotate when popover is open */
 .dropdown-button:has(+ .dropdown-choices:popover-open) .dropdown-arrow {
     transform: rotate(180deg);
 }
 
-/* Dropdown */
 .dropdown-choices {
-    /* Anchor position (left/top only) */
     position: absolute;
     left: anchor(--dropdown left);
     top: anchor(--dropdown bottom);
 
-    /* Visuals */
     background: white;
     border: 1px solid #c4c4c4;
     border-top: none;
@@ -216,11 +210,10 @@
     overflow: hidden;
 }
 
-/* Options */
 .dropdown-option {
     display: flex;
     align-items: center;
-    justify-content: center; /* ✅ centered text */
+    justify-content: center;
     width: 100%;
     padding: calc(var(--base-margin, 8px) * 1.5)
         calc(var(--base-margin, 8px) * 2);
@@ -249,19 +242,16 @@
     box-shadow: inset 0 0 0 2px #2563eb40;
 }
 
-/* Divider */
 .dropdown-option + .dropdown-option {
     border-top: 1px solid #eee;
 }
 
-/* Fallback for browsers without :has() */
 @supports not (selector(:has(*))) {
     .dropdown-choices:popover-open + .dropdown-arrow {
         transform: rotate(180deg) !important;
     }
 }
 
-/* ===== Quiz ===== */
 .quiz-content {
     display: inline-flex;
     align-items: center;
@@ -307,7 +297,6 @@
     transform-origin: top left;
 }
 
-/* ===== Chip ===== */
 .chip {
     display: inline-flex;
     align-items: center;
@@ -322,7 +311,6 @@
     word-wrap: break-word;
 }
 
-/* ===== Page Cell ===== */
 .page-cell {
     display: inline-flex;
     align-items: center;
@@ -332,13 +320,17 @@
     color: white;
     font: 700 var(--h5) / 1.2 Inter;
     word-wrap: break-word;
+    border-radius: calc(var(--base-margin) / 2);
+    cursor: pointer;
+    text-decoration: none;
+    transition: 100ms;
 }
 
-.page-cell .cell-selected {
+.cell-selected,
+.page-cell:hover {
     background: rgba(255, 255, 255, 0.35);
 }
 
-/* ===== Notification ===== */
 .topbar-notif {
     display: inline-flex;
     flex-direction: column;
@@ -347,8 +339,14 @@
     align-items: flex-end;
     gap: calc(var(--base-margin) * 0.75);
     padding: calc(var(--base-margin) * 2);
-    background: rgba(206, 194, 184, 0.25);
-    border-radius: calc(var(--base-margin) * 2);
+    background: rgba(206, 194, 184, 0.5);
+    border-radius: calc(var(--base-margin) * 1.5);
+    text-decoration: none;
+    transition: 100ms;
+}
+
+.topbar-notif:hover {
+    background: rgba(255, 255, 255, 0.35);
 }
 
 .topbar-notif h3,
@@ -360,6 +358,7 @@
     justify-content: center;
     text-align: right;
     word-wrap: break-word;
+    text-decoration: none;
 }
 
 .topbar-notif h3 {
@@ -375,4 +374,91 @@
 .notif-description {
     color: rgba(255, 255, 255, 0.75);
     font: 400 var(--h6) / 1.2 Inter;
+}
+
+#topbar {
+    display: flex;
+    min-width: 600px;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-left: var(--base-margin);
+    padding-right: var(--base-margin);
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background-color: var(--MainColor, #b4907d);
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom: 4px var(--DarkerColor, #593718) solid;
+    justify-content: space-between;
+}
+
+.topbar-main {
+    gap: 8px;
+    align-items: center;
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+
+#topbar-logo {
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    display: inline-flex;
+    flex-direction: row;
+    margin-right: 8px;
+}
+
+#topbar-logo > h2 {
+    color: white;
+    font-size: calc(var(--base-size) * 2);
+    font-family: "Noto Serif";
+    font-weight: 700;
+    word-wrap: break-word;
+}
+
+#topbar-notification {
+    padding: var(--base-margin);
+    border-radius: 100%;
+    cursor: pointer;
+    background: none;
+    transition: linear 100ms;
+    anchor-name: --notifs;
+}
+
+#topbar-notification:hover {
+    background-color: rgba(255, 255, 255, 0.35);
+}
+
+#topbar-notifications {
+    position: absolute;
+    position-anchor: --notifs;
+    top: anchor(bottom);
+    left: anchor(left);
+    position-try-fallbacks: --below-right, --below-left;
+    margin: initial;
+    min-width: 300px;
+    width: max-content;
+    max-width: 700px;
+    gap: 8px;
+    flex-direction: column;
+    padding: 8px;
+    border-radius: calc(var(--base-margin) * 1.5);
+    background-color: var(--darker-color);
+    text-decoration: none;
+}
+
+#topbar-notifications:popover-open {
+    display: flex;
+}
+
+@position-try --below-right {
+    inset: unset;
+    top: anchor(bottom);
+    left: anchor(left);
+}
+
+@position-try --below-left {
+    inset: unset;
+    top: anchor(bottom);
+    right: anchor(right);
 }

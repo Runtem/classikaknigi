@@ -6,3 +6,4 @@ export { default as Dropdown } from './Dropdown';
 export { default as QuizOption } from './QuizOption';
 export { default as TopbarCell } from './TopbarCell';
 export { default as TopbarNotification } from './TopbarNotification';
+export { default as Topbar } from './Topbar'

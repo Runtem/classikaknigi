@@ -1,15 +1,23 @@
+import { useState } from "react";
+
 interface ChipInterface {
     title: string;
     isSelected?: boolean;
 }
 
 export default function Chip({ title, isSelected = false }: ChipInterface) {
+    const [isChipSelected, setIsChipSelected] = useState(isSelected);
+
+    function toggleSelect() {
+        setIsChipSelected(!isChipSelected);
+    }
+
     return (
-        <div className="chip">
+        <button className="chip" onClick={toggleSelect}>
             {title}
-            {isSelected ?
-            <img width={32} height={32}></img> :
+            {isChipSelected ?
+            <img src="./icons/checkmark.svg" width={20} height={20}/> :
             ""}
-        </div>
+        </button>
     );
 }

@@ -1,4 +1,3 @@
-// src/components/Dropdown.tsx
 import React, { useRef, useState, useEffect, useCallback } from "react";
 
 interface DropdownOptionProps {
@@ -35,82 +34,65 @@ export default function Dropdown({
     const popoverRef = useRef<HTMLDivElement>(null);
     const isPopoverOpen = useRef(false);
 
-    // 🔁 Update button width to fit its text (responsive to selection)
-    const updateButtonWidth = useCallback(() => {
-        if (!buttonRef.current) return;
-
-        // Force intrinsic sizing: temporarily remove fixed width
-        const btn = buttonRef.current;
-        const originalWidth = btn.style.width;
-        btn.style.width = "fit-content";
-        const intrinsicWidth = btn.getBoundingClientRect().width;
-        btn.style.width = originalWidth || "";
-
-        // Set min-width so it never shrinks below intrinsic size
-        // (but allow growth if selected text is longer)
-        btn.style.minWidth = `${intrinsicWidth}px`;
-    }, []);
-
-    // 📏 Compute dropdown width = max(button width, widest option width)
     const updateDropdownWidth = useCallback(() => {
         if (!buttonRef.current || !popoverRef.current) return;
 
-        const btnWidth = buttonRef.current.getBoundingClientRect().width;
+        const btn = buttonRef.current;
+        const popover = popoverRef.current;
 
-        // Create temp container to measure max option width
-        const temp = document.createElement("div");
+        // --- Measure button intrinsic width ---
+        const originalWidth = btn.style.width;
+        btn.style.width = "fit-content";
+        const intrinsicBtnWidth = btn.getBoundingClientRect().width;
+        btn.style.width = originalWidth || "";
+
+        // --- Measure widest option ---
+        let maxOptionWidth = 0;
+        const temp = document.createElement("span");
         Object.assign(temp.style, {
             position: "fixed",
             visibility: "hidden",
             whiteSpace: "nowrap",
-            font: getComputedStyle(buttonRef.current).font,
-            fontSize: getComputedStyle(buttonRef.current).fontSize,
-            fontFamily: getComputedStyle(buttonRef.current).fontFamily,
-            padding: "0", // we'll add option padding separately
+            font: getComputedStyle(btn).font,
+            fontSize: getComputedStyle(btn).fontSize,
+            fontFamily: getComputedStyle(btn).fontFamily,
         });
-
-        // Clone option style to get padding
-        const sampleOption = document.createElement("button");
-        sampleOption.className = "dropdown-option";
-        sampleOption.textContent = "M";
-        temp.appendChild(sampleOption);
         document.body.appendChild(temp);
-        const optionStyle = getComputedStyle(sampleOption);
-        const horizPad =
-            parseFloat(optionStyle.paddingLeft) +
-            parseFloat(optionStyle.paddingRight);
-        document.body.removeChild(temp);
 
-        // Now measure option texts
-        let maxOptionWidth = 0;
         choices.forEach((choice) => {
-            const span = document.createElement("span");
-            span.textContent = choice;
-            Object.assign(span.style, {
-                font: optionStyle.font,
-                fontSize: optionStyle.fontSize,
-                fontFamily: optionStyle.fontFamily,
-                whiteSpace: "nowrap",
-            });
-            temp.appendChild(span);
-            document.body.appendChild(temp);
+            temp.textContent = choice;
             maxOptionWidth = Math.max(
                 maxOptionWidth,
-                span.getBoundingClientRect().width
+                temp.getBoundingClientRect().width
             );
-            document.body.removeChild(temp);
         });
 
-        const requiredWidth = Math.max(btnWidth, maxOptionWidth + horizPad);
-        popoverRef.current.style.width = `${requiredWidth}px`;
+        document.body.removeChild(temp);
+
+        // --- Include horizontal padding from dropdown-option ---
+        const firstOption = popover.querySelector(".dropdown-option");
+        let horizPad = 0;
+        if (firstOption) {
+            const optionStyle = getComputedStyle(firstOption);
+            horizPad =
+                parseFloat(optionStyle.paddingLeft) +
+                parseFloat(optionStyle.paddingRight);
+        }
+
+        const finalWidth = Math.max(
+            intrinsicBtnWidth,
+            maxOptionWidth + horizPad
+        );
+
+        // --- Apply width to button and dropdown ---
+        btn.style.minWidth = `${finalWidth}px`;
+        popover.style.width = `${finalWidth}px`;
     }, [choices]);
 
-    // 🔄 Run on mount & when selected value changes
     useEffect(() => {
-        updateButtonWidth();
-    }, [selectedValue, updateButtonWidth]);
+        updateDropdownWidth();
+    }, [selectedValue, updateDropdownWidth]);
 
-    // 🕵️ Watch for popover open/close
     useEffect(() => {
         const popover = popoverRef.current;
         if (!popover) return;
@@ -131,6 +113,7 @@ export default function Dropdown({
             attributes: true,
             attributeFilter: ["popover"],
         });
+
         return () => observer.disconnect();
     }, [updateDropdownWidth]);
 
@@ -144,7 +127,7 @@ export default function Dropdown({
                 type="button"
                 aria-haspopup="listbox"
                 aria-expanded={isPopoverOpen.current}
-                onClick={updateButtonWidth} // ensure up-to-date on click
+                onClick={updateDropdownWidth}
             >
                 <p className="dropdown-title">{selectedValue}</p>
                 <img

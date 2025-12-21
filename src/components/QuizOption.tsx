@@ -1,4 +1,4 @@
-import { BaseButton } from './Button';
+import { BaseButton } from "./Button";
 
 interface QuizOptionInterface {
     letter: string;
@@ -7,7 +7,11 @@ interface QuizOptionInterface {
 
 export default function QuizOption({ letter, answer }: QuizOptionInterface) {
     return (
-        <BaseButton onClick={() => {}} colorClass='white'>
+        <BaseButton
+            onClick={() => {}}
+            colorClass="white"
+            className="quiz-option"
+        >
             <p className="quiz-letter">{letter}.</p>
             <p className="quiz-answer">{answer}</p>
         </BaseButton>

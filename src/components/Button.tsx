@@ -6,22 +6,25 @@ interface BaseButtonProps {
     colorClass?: string;
     onClick: React.MouseEventHandler<HTMLButtonElement>;
     children?: React.ReactNode;
+    className?: string;
 }
 
 export function BaseButton({
     colorClass = 'red',
     onClick,
+    className = '',
     children,
 }: BaseButtonProps) {
     return (
         <button
-            className={`button button-${colorClass}`}
+            className={`button button-${colorClass} ${className}`}
             onClick={onClick}
         >
             {children}
         </button>
     );
 }
+
 
 // Higher-level button with icon + label (does NOT use children)
 interface ButtonProps {
